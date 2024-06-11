@@ -10,7 +10,11 @@ const Message = require('../models/messages')
 /* GET home page. */
 router.get('/', asyncHandler(async function(req, res, next) {
   const allMessages = await Message.find().sort({_id: 1}).exec()
-  if (req.user && allMessages.length > 0 && req.user.isMember === true) {
+  if (req.user && allMessages.length > 0 && req.user.isMember === true && req.user.isAdmin === true) {
+    res.render('index',{title: 'Members-Only', user: req.user.fullname, messages: allMessages, member: true, admin: true})
+  } else if (req.user && req.user.isMember === true && req.user.isAdmin === true) {
+    res.render('index',{title: 'Members-Only', user: req.user.fullname, member: true, admin: true})
+  } else if (req.user && allMessages.length > 0 && req.user.isMember === true) {
     res.render('index',{title: 'Members-Only', user: req.user.fullname, messages: allMessages, member: true})
   } else if (req.user && allMessages.length > 0) {
     res.render('index',{title: 'Members-Only', user: req.user.fullname, messages: allMessages})
@@ -18,11 +22,27 @@ router.get('/', asyncHandler(async function(req, res, next) {
     res.render('index', { title: 'Members-Only', user: req.user.fullname, member: true})
   } else if (req.user) {
     res.render('index', { title: 'Members-Only', user: req.user.fullname})
+  } else if (allMessages.length > 0) {
+    res.render('index', { title: 'Members-Only', messages: allMessages })
   } else {
     res.render('index', { title: 'Members-Only' })
   };
 }));
-
+router.post('/', asyncHandler(async function(req, res, next) {
+  await Message.findByIdAndDelete(req.body.deletePost)
+  const allMessages = await Message.find().sort({_id: 1}).exec()
+  if (req.user && allMessages.length > 0 && req.user.isMember === true && req.user.isAdmin === true) {
+    res.render('index',{title: 'Members-Only', user: req.user.fullname, messages: allMessages, member: true, admin: true})
+  } else if (req.user && req.user.isMember === true && req.user.isAdmin === true) {
+    res.render('index',{title: 'Members-Only', user: req.user.fullname, member: true, admin: true})
+  }
+}))
+router.get('/logout', asyncHandler( async function (req, res, next) {
+  req.logout((err) => {
+    if (err) return next(err)
+      res.redirect('/')
+  })
+}))
 router.get('/login', loginController.loginGet)
 router.post('/login', loginController.loginPost)
 router.get('/signup', signUpControler.signUpGet)

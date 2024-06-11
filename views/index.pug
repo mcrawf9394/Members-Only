@@ -4,9 +4,17 @@ block content
   h1= title
   if user 
     h2= `Welcome ${user}`
+    a(href="/logout")
+      button Logout 
     if member
       a(href="/create-post")
         button Add Post
+      if admin 
+
+      else 
+        a(href="/enter-secret")
+          button Change to Admin 
+
     else 
       a(href="/enter-secret")
         button Become a Member 
@@ -22,7 +30,14 @@ block content
       for message in messages 
         if member 
           h3=message.user
-        h3= message.title
-        p= message.message
+          h3= message.title
+          p= message.message
+        else 
+          h3= message.title
+          p= message.message
+        if admin 
+          form(method="post") 
+            input(hidden name="deletePost" value=message._id)
+            button(type="submit") Delete Post
   else 
       h3 There are no posts
