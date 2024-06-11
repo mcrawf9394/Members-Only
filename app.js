@@ -5,7 +5,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 require('dotenv').config()
 var indexRouter = require('./routes/index');
-const MongoStore = require('')
 
 var app = express();
 const mongoose = require('mongoose');
@@ -19,7 +18,13 @@ async function main () {
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-
+var session = require('express-session')
+app.use(session({
+  secret: process.env.SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {user: false, secure: true}
+}))
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

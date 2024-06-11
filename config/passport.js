@@ -2,6 +2,7 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const connection = process.env.MONGODB_URI
 const users = require('../models/users')
+const bcrypt = require('bcrypt')
 
 const customFields = {
     username: 'username',

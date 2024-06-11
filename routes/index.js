@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/login', loginController.loginGet)
-router.post('/login', loginController.loginPost)
+//router.post('/login', loginController.loginPost)
 router.get('/signup', signUpControler.signUpGet)
 router.post('/signup', signUpControler.signUpPost)
 
