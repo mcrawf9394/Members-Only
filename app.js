@@ -10,7 +10,7 @@ var app = express();
 const mongoose = require('mongoose');
 const passport = require('passport');
 mongoose.set("strictQuery", false)
-const mongoDb = MONGODB_URI
+const mongoDb = process.env.MONGODB_URI
 main().catch((err) => console.log(err))
 async function main () {
   await mongoose.connect(mongoDb)
@@ -20,7 +20,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 var session = require('express-session')
 app.use(session({
-  secret: SECRET,
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {maxAge: (60000 * 60 * 24)}

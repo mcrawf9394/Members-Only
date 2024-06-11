@@ -12,7 +12,7 @@ exports.secret_post = [
         .trim()
         .isLength({min: 5})
         .custom(value => {
-            return value === MEMBERSECRET
+            return value === process.env.MEMBERSECRET
         })
         .escape(),
     asyncHandler(async (req, res, next) => {
