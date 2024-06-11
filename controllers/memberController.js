@@ -23,7 +23,11 @@ exports.secret_post = [
                error: errors.array()
             })
         } else {
-            await User.findByIdAndUpdate(req.body.user, {isMember: true})
+            if (req.body.admin != undefined) {
+                await User.findByIdAndUpdate(req.body.user, {isMember: true, isAdmin: true})
+            } else {
+                await User.findByIdAndUpdate(req.body.user, {isMember: true})
+            }
             res.redirect('/')
         }
     })
