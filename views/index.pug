@@ -2,8 +2,27 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
-  a(href="/login")
-    button Login  
-  a(href="/signup") 
-    button Sign-up
+  if user 
+    h2= `Welcome ${user}`
+    if member
+      a(href="/create-post")
+        button Add Post
+    else 
+      a(href="/enter-secret")
+        button Become a Member 
+
+    
+  else
+    p Welcome to #{title}
+    a(href="/login")
+      button Login  
+    a(href="/signup") 
+      button Sign-up
+  if messages 
+      for message in messages 
+        if member 
+          h3=message.user
+        h3= message.title
+        p= message.message
+  else 
+      h3 There are no posts

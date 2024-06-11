@@ -9,10 +9,10 @@ const customFields = {
     password: 'password'
 }
 const verifyCallBack = (username, password, done) => {
-    users.findOne({ username: username})
+    users.findOne({ userName: username})
         .then ((user) => {
             if (!user) {return done(null, false)}
-            const isValid = validPassword(password, user.hash, user.salt)
+            const isValid = bcrypt.compareSync(password, user.password)
             if (isValid) {
                 return done(null, user)
             }   else {
@@ -26,7 +26,7 @@ const verifyCallBack = (username, password, done) => {
 
 const strategy = new LocalStrategy(customFields, verifyCallBack)
 
-passport.use(strategy)
+passport.use('local', strategy)
 passport.serializeUser((user, done) => {
     done(null, user.id)
 })

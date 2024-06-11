@@ -23,7 +23,7 @@ app.use(session({
   secret: process.env.SECRET,
   resave: false,
   saveUninitialized: false,
-  cookie: {user: false, secure: true}
+  cookie: {maxAge: (60000 * 60 * 24)}
 }))
 app.use(logger('dev'));
 app.use(express.json());

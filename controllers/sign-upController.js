@@ -52,7 +52,8 @@ exports.signUpPost = [
                 lastName: req.body.lastName,
                 userName: req.body.username,
                 password: hashedPassword,
-                salt: salt
+                isMember: false,
+                isAdmin: false
             })
             await newUser.save()
             res.redirect('/login')

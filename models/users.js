@@ -4,7 +4,8 @@ const User = new Schema ({
     lastName: {type: String, required: true},
     userName: {type: String, required: true},
     password: {type: String, required: true},
-    salt: {type: String, required: true}
+    isMember: {type:Boolean, required: true},
+    isAdmin: {type:Boolean, required: true}
 })
 User.virtual('fullname').get(function () {
     return `${this.firstName} ${this.lastName}`
